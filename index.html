@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FiveDead Loading Screen</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat:wght@500&family=Quicksand&display=swap" rel="stylesheet">
+    
+    <!--Google Icon Font -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,500i,700,700i" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="./libraries/css/all.css" />
+    <link rel="stylesheet" href="./libraries/css/all.min.css" />
+
+    <!-- Vuetify -->
+    <link rel="stylesheet" href="./libraries/css/vuetify.css">
+    
+    <!-- Material -->
+    <link rel="stylesheet" href="./libraries/css/material.css">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <v-app id="container">
+      <v-content>
+        <div id="name">Welcome {{ player.name }}, to FiveDead</div>
+
+        <!-- Page Wrapper -->
+        <div class="page-wrapper">
+          <!-- Card Wrapper -->
+          <div class="card-wrapper">
+              <!-- Server and player information -->
+              <div class="card-panel animated zoomInLeft" style="background-color: rgba(0, 0, 0, 0.3)">
+                  <table class="table-right">
+                      <colgroup>
+                          <col width="9%">
+                          <col width="20%">
+                          <col width="61%">
+                      </colgroup>
+                      <tbody>
+                          <tr class="table-title" style="border-color: #fff;">
+                              <td colspan="3">Player Information</td>
+                          </tr>
+                          <tr>
+                              <td>
+                                  <i class="fas fa-globe icon"></i>
+                              </td>
+                              <td>ID:</td>
+                              <td id="player_id">{{ player.id }}</td>
+                          </tr>
+                          <tr>
+                              <td>
+                                  <i class="fas fa-user icon"></i>
+                              </td>
+                              <td>Name:</td>
+                              <td id="player_name">{{ player.name }}</td>
+                          </tr>
+                          <tr>
+                              <td>
+                                  <i class="fas fa-book icon"></i>
+                              </td>
+                              <td>Rank:</td>
+                              <td id="player_rank">{{ player.rank }}</td>
+                          </tr>
+                          <tr>
+                              <td>
+                                  <i class="fas fa-gamepad icon"></i>
+                              </td>
+                              <td>Playtime:</td>
+                              <td id="player_playtime">{{ player.playtime }}</td>
+                          </tr>
+
+                          <!-- Stats -->
+                          <tr class="table-title" style="border-top: #fff 1px solid;">
+                            <td colspan="3">Stats</td>
+                          </tr>
+
+                          <tr>
+                              <td>
+                                  <i class="fas fa-layer-group icon"></i>
+                              </td>
+                              <td>Level:</td>
+                              <td id="stats_level">{{ stats.level }}</td>
+                          </tr>
+
+                          <tr>
+                              <td>
+                                  <i class="fas fa-database icon"></i>
+                              </td>
+                              <td>XP:</td>
+                              <td id="stats_level">{{ stats.xp }}</td>
+                          </tr>
+
+                          <tr>
+                              <td>
+                                  <i class="fas fa-heartbeat icon"></i>
+                              </td>
+                              <td>Health:</td>
+                              <td id="stats_level">{{ ((stats.health / stats.maxHealth) * 100).toFixed(0) }}%</td>
+                          </tr>
+
+                          <tr>
+                              <td>
+                                  <i class="fas fa-thermometer-quarter icon"></i>
+                              </td>
+                              <td>Temperature:</td>
+                              <td id="stats_level">{{ stats.temperature }}%</td>
+                          </tr>
+
+                          <tr>
+                              <td>
+                                  <i class="fas fa-hamburger icon"></i>
+                              </td>
+                              <td>Food:</td>
+                              <td id="stats_level">{{ stats.food }}%</td>
+                          </tr>
+
+                          <tr>
+                              <td>
+                                <i class="fas fa-tint icon"></i>
+                              </td>
+                              <td>Drink:</td>
+                              <td id="stats_level">{{ stats.drink }}%</td>
+                          </tr>
+
+                          <!-- Kills -->
+                          <tr class="table-title" style="border-top: #fff 1px solid;">
+                              <td colspan="3">Kills</td>
+                          </tr>
+
+                          <tr>
+                              <td>
+                                <i class="fas fa-biohazard icon"></i>
+                              </td>
+
+                              <td>Zombie Kills:</td>
+                              <td>{{ kills.zombieKills }}</td>
+                          </tr>
+
+                          <tr>
+                              <td>
+                                <i class="fas fa-skull icon"></i>
+                              </td>
+
+                              <td>Player Kills:</td>
+                              <td>{{ kills.playerKills }}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+
+              <!-- Skills -->
+              <div class="card-panel animated zoomInLeft" style="background-color: rgba(0, 0, 0, 0.3)">
+                <table class="table-right">
+                    <colgroup>
+                        <col width="9%">
+                        <col width="35%">
+                        <col width="71%">
+                    </colgroup>
+                    <tbody>
+                        <tr class="table-title" style="border-color: #fff;">
+                          <td colspan="3">Skills</td>
+                        </tr>
+
+                        <tr v-for="(item, index) in stats.skills">
+                          <td v-html="item.icon"></td>
+                          <td>{{ item.label }}:</td>
+                          <td id="skill_value" v-if="item.type == 'other'">Level - {{ item.level }}</td>
+                          <td id="skill_value" v-if="item.type == 'gta'">{{ item.value }}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+              </div>
+          </div>
+        </div> <!-- Javascript code -->
+
+        <div id="tip-container">
+          <div class="tip">{{ currentTip }}</div><br>
+          <div class="next_tip">Space Bar - Next Tip</div>
+        </div>
+
+        <div id="logo-container">
+          <div class="logo"></div>
+        </div>
+      </v-content>
+    </v-app>
+
+    <script src="./libraries/js/vue.js"></script>
+    <script src="./libraries/js/vuetify.js"></script>
+    <script src="./libraries/js/vue-snotify.min.js"></script>
+    <script src="./libraries/js/jquery.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
